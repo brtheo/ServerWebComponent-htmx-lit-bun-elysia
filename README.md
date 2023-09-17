@@ -12,7 +12,7 @@ In the `index.ts` file, we first render `<x-counter count=${state.val}></x-count
 
 The `xCounter` class itself is decorated with `@webServerComponent(tagName: string, serverActions: Array<[ServerAction, Handler]>)`, it produces same behaviour as `@customElement(tagName: string)` as it will register the custom element in the registry but in addition it'll do two things : 
 * create HTMX routes that will respond with the result of the `Handler` type
-* attach beloved HTMX attributes to the created Web Component
+* attach beloved HTMX attributes to the Web Component
 
 ```typescript
 export type ServerAction = `${HTTPVerb}:${WiredEvent}:${WiredProperty}`;
