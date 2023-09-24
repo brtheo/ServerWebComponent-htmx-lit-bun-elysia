@@ -4,16 +4,29 @@ import { staticPlugin } from '@elysiajs/static'
 import { autoroutes } from "elysia-autoroutes";
 import './components/registerComponents';
 import SWCRoutes from './SWCRoutes';
+import { R } from "./layouts";
+import { html } from "lit";
+import {map} from 'lit/directives/map.js';
 
 await builder();
-
+const todos = [{_id:1,title:"foobar",completed: false},{_id:2,title:"bazbaz",completed:true}]
 const app = new Elysia()
   .use(staticPlugin())
   .use(SWCRoutes)
   .use(autoroutes({
     routesDir: './routes'
   }))
-  
+  .get('/test', async () => R(html`
+   <ul>
+    ${map(todos, ({_id,title,completed}) => html`
+      	<to-do 
+          ._id=${_id}
+          .title=${title}
+          ?completed=${completed}>
+        </to-do>
+    `)}
+   </ul>
+  `))
   .listen(3000);
 
 console.log(

@@ -1,8 +1,10 @@
 import {render} from '@lit-labs/ssr';
 import {collectResult} from '@lit-labs/ssr/lib/render-result.js';
-import {HTMLTemplateResult, html} from 'lit';
-export const layout = async ({body}: {body: HTMLTemplateResult}) => 
-new Response(await collectResult(render(html`
+import type {HTMLTemplateResult} from 'lit';
+import {html} from 'lit';
+export const R = async (template: HTMLTemplateResult) => 
+  new Response(await collectResult(render(template)), {'headers': {'content-type':'text/html'}})
+export const layout = async ({body}: {body: HTMLTemplateResult}) => R(html`
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -38,4 +40,4 @@ new Response(await collectResult(render(html`
     ${body}
   </body>
   </html>
-`)),{'headers': {'Content-Type': 'text/html'}});
+`);

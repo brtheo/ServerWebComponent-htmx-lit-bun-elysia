@@ -10,5 +10,8 @@ export const get = async () => layout({
   body: html`
     <div style="margin-left:350px; background-color: blue" class="square"></div>
     <blog-article .post=${post} ></blog-article>
+    <button>test</button>
+    <x-test hx-get="/test" hx-trigger="click from:button" hx-swap="innerHTML">
+    </x-test>
   `
 });
