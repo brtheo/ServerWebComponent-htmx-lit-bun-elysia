@@ -11,8 +11,8 @@ In a Lit Web Component we can decorate class properties (in our case) :
 In the `index.ts` file, we first render `<x-counter count=${state.val}></x-counter>` to give the prop/attr an initial value.
 
 The `xCounter` class itself is decorated with `@webServerComponent(tagName: string, serverActions: Array<[ServerAction, Handler]>)`, it produces same behaviour as `@customElement(tagName: string)` as it will register the custom element in the registry but in addition it'll do two things : 
-* create HTMX routes that will respond with the result of the `Handler` type
-* attach beloved HTMX attributes to the created Web Component
+* create HTMX routes that will respond back with an event of type `<original event name>:res` containing the return value of the `Handler` function
+* attach beloved HTMX attributes to the Web Component
 
 ```typescript
 export type ServerAction = `${HTTPVerb}:${WiredEvent}:${WiredProperty}`;
@@ -50,7 +50,9 @@ On the client :
   );
 </script>
 ```
-It also creates an `add()` method that send an event of type `add` onto the `body` element of the page that we can use like this in our component (this layer of abstraction may not be relevant but ... who cares)
+It also creates an `add()` method dynamically attached to the `xCounter` class, that send an event of type `add` onto the `body` element of the page to trigger the `hx-trigger` attribute requirements we've set.
+
+We can use it like this in our component : (this layer of abstraction may not be relevant but ... who cares)
 ```typescript
 render() {
   return html`
