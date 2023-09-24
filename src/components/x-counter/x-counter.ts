@@ -1,13 +1,14 @@
 import { LitElement, html } from 'lit'
 import { property } from 'lit/decorators.js'
-import { webServerComponent } from './utils'
+import { SWC } from '../lib/shared/SWC';
 
-import {state} from '../state'
-
-@webServerComponent('x-counter', [
-  ['get:add:count', state.increment]
-])
-export class xCounter extends LitElement {
+export class xCounter extends SWC<{
+  add: () => void
+}>(
+  'x-counter', 
+  ['get:add:count'],
+  LitElement) 
+{
   @property({type:Number, reflect: true})
   count: number;
 
@@ -17,6 +18,7 @@ export class xCounter extends LitElement {
   }
 } 
 
+customElements.define('x-counter', xCounter);
 declare global {
   interface HTMLElementTagNameMap {
     'x-counter': xCounter

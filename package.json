@@ -9,11 +9,14 @@
     "@elysiajs/static": "^0.6.0",
     "@lit-labs/ssr": "^3.1.6",
     "@lit-labs/ssr-client": "^1.1.3",
+    "@lit-labs/task": "^3.0.2",
     "elysia": "latest",
-    "lit": "^2.8.0"
+    "elysia-autoroutes": "^0.2.2",
+    "lit": "^2.8.0",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "^1.0.3"
   },
   "module": "src/index.js"
 }
