@@ -1,4 +1,4 @@
-import { Context } from "elysia";
+import { Context} from "elysia";
 import { LitElement } from "lit";
 import { z } from "zod";
 export type LitElementConstructor = new (...args: any[]) => LitElement
@@ -20,4 +20,4 @@ export const PostProps =  z.object({
   id: z.number()
 });
 
-export type PostProps = z.infer<typeof PostProps>;
+export type TPostProps = z.infer<typeof PostProps>;

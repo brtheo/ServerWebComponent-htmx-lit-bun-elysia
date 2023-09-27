@@ -2,7 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { query } from 'lit/decorators.js';
 import { property } from 'lit/decorators.js';
 import { SWC } from '../lib/shared/SWC';
-import { PostProps } from "../../sharedtypes";
+import type { TPostProps } from "../../sharedtypes";
 
 type Post = {
   userId: number,
@@ -12,7 +12,7 @@ type Post = {
 }
 const tagName = 'blog-article' as const;
 export class BlogArticle extends SWC<{
-  fetchblogpost: (params: PostProps) => void
+  fetchblogpost: (params: TPostProps) => void
 }>(
   tagName,
   ['post:fetchblogpost:post'],
@@ -38,7 +38,7 @@ export class BlogArticle extends SWC<{
       type="number"
       value=${id}
       @change=${<T extends HTMLInputElement>(e: Event<T>) => 
-        this.fetchblogpost(PostProps.parse({id: +(e.target as T).value}))
+        this.fetchblogpost({id: +(e.target as T).value})
       }>
       <article part="article">
         <header part="header">${title} ${id}</header>
