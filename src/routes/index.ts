@@ -1,5 +1,5 @@
 import {html} from 'lit';
-import { layout } from '../layouts';
+import { layout } from '../layout';
 import {count} from '../db';
 export const get = async () => layout({
   body: html`

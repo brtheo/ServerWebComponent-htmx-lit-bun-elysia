@@ -7,7 +7,7 @@ export type HTTPVerb = 'get' | 'post' | 'put' | 'delete' | 'patch';
 export type WiredEvent = string;
 export type WiredProperty = string;
 export type Handler = () => any
-export type ComponentTag = `${string}-${string}`;
+export type ComponentTag = string;
 export type ServerAction = `${HTTPVerb}:${WiredEvent}:${WiredProperty}`;
 export type ServerComponentRoute = {
   httpVerb: HTTPVerb,

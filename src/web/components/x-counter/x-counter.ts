@@ -1,7 +1,8 @@
 import { LitElement, html } from 'lit'
-import { property } from 'lit/decorators.js'
-import { SWC } from '../lib/shared/SWC';
+import { customElement, property } from 'lit/decorators.js'
+import { SWC } from '../../lib/shared/SWC';
 
+@customElement('x-counter')
 export class xCounter extends SWC<{
   add: () => void
 }>(
@@ -18,7 +19,6 @@ export class xCounter extends SWC<{
   }
 } 
 
-customElements.define('x-counter', xCounter);
 declare global {
   interface HTMLElementTagNameMap {
     'x-counter': xCounter

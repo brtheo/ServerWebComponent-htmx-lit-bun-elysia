@@ -1,9 +1,9 @@
 import { Context } from "elysia";
-import type { PostProps } from "../../sharedtypes";
-import { getServerProps } from "../lib/shared/getServerProps";
+import type { TPostProps } from "../../../types";
+import { getServerProps } from "../../lib/shared/getServerProps";
 
 export const fetchblogpost = async(ctx: Context) => {
-  const {id} = getServerProps<PostProps>(ctx);
+  const {id} = getServerProps<TPostProps>(ctx);
   return (
     await (
       await fetch('https://jsonplaceholder.typicode.com/posts/'+id)

@@ -1,5 +1,5 @@
 import { Elysia } from 'elysia';
-import { serverComponentRoutes } from './components/lib/shared/SWC';
+import { serverComponentRoutes } from './web/lib/shared/SWC';
 const SWCRoutes = new Elysia();
 
 serverComponentRoutes.forEach(route => {

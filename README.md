@@ -3,34 +3,47 @@
 This repo is mainly a POC to demonstrate a server event driven reactive application using both the powers of HTMX and Web Component.
 
 ## How it works
-In a Lit Web Component we can decorate class properties (in our case) :
+
+### Attributes update
+In a Lit Web Component we can decorate class properties to (in our case) :
 * ensure type safety
 * bind it to a component's HTML attribute
 * observe any changes of the prop/attr and react to it by a rerender
 
-In the `index.ts` file, we first render `<x-counter count=${state.val}></x-counter>` to give the prop/attr an initial value.
+In the `routes/index.ts` file, we first render a web component `<x-counter count=${state.val}></x-counter>` to give the prop/attr an initial value.
 
-The `xCounter` class itself is decorated with `@webServerComponent(tagName: string, serverActions: Array<[ServerAction, Handler]>)`, it produces same behaviour as `@customElement(tagName: string)` as it will register the custom element in the registry but in addition it'll do two things : 
+The `xCounter` class itself is extending the mixin `SWC`
+```typescript
+export const SWC = <T>(
+  componentTag: ComponentTag,
+  serverActions: Array<ServerAction>, 
+  genericConstructor: GenericConstructor<LitElement>
+): GenericConstructor<T & LitElement>
+```
+It it'll do two things : 
 * create HTMX routes that will respond back with an event of type `<original event name>:res` containing the return value of the `Handler` function
 * attach beloved HTMX attributes to the Web Component
 
 ```typescript
-export type ServerAction = `${HTTPVerb}:${WiredEvent}:${WiredProperty}`;
-@webServerComponent('x-counter', [
-  ['get:add:count', state.increment]
-])
-export class xCounter extends LitElement {
+@customElement('x-counter')
+export class xCounter extends SWC<{
+  add: () => void
+}>(
+  'x-counter', 
+  ['get:add:count'],
+  LitElement)
+{
   ...
 ```
 This example will produce the following 
 
 On the server :
 ```typescript
-new Elysia().get('/x-counter/add', () => 
+new Elysia().get('/x-counter/add', async () => 
   new Response(null, { 
     headers: {
       'HX-Trigger': JSON.stringify({
-        'add:res': handler() // updated value to reflect back to the component's attribute
+        'add:res': await methodFromDynamicModule() // exported method in x-counter.props.ts file
       )}
     }
   })
@@ -59,3 +72,41 @@ render() {
     <button @click=${this.add}>push me daddy ${this.count}</button>`
 }
 ```
+
+### HTML response swapping
+As of right now, HTMX doesn't support shadow dom, but still we can take advantage of `<slot>` element to swap HTML response in the innerHTML of our Web Component for example.
+```typescript
+//x-swapped.ts
+@customElement('x-swapped')
+export class xSwapped extends LitElement {
+  render() {
+    return html`
+      hello from outside, inner will be swapped
+      <slot></slot>
+    `
+  }
+}
+//somepath.ts
+export const get = async () => layout({
+  body: html`
+    <button>load todos</button>
+    <x-swapped hx-get="/toswap" hx-trigger="click from:button" hx-swap="innerHTML">
+    </x-swapped>
+  `
+});
+//routes.ts
+const app = new Elysia()
+  .get('/toswap', async () => R(html`
+   <ul>
+    ${map(todos, ({_id,title,completed}) => html`
+      	<to-do 
+          ._id=${_id}
+          .title=${title}
+          ?completed=${completed}>
+        </to-do>
+    `)}
+   </ul>
+  `))
+```
+
+In this example we see that the `<to-do>` Web Compopnent, even though being rendered by HTMX, will be both executed on the server and correctly hydrated once on the client side.

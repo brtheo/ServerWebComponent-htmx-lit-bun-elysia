@@ -1,8 +1,8 @@
 import { LitElement, html, css } from 'lit';
 import { query } from 'lit/decorators.js';
-import { property } from 'lit/decorators.js';
+import { property, customElement } from 'lit/decorators.js';
 import { SWC } from '../lib/shared/SWC';
-import type { TPostProps } from "../../sharedtypes";
+import type { TPostProps } from "../../types";
 
 type Post = {
   userId: number,
@@ -10,11 +10,11 @@ type Post = {
   title: string,
   body: string
 }
-const tagName = 'blog-article' as const;
+@customElement('blog-article')
 export class BlogArticle extends SWC<{
   fetchblogpost: (params: TPostProps) => void
 }>(
-  tagName,
+  'blog-article',
   ['post:fetchblogpost:post'],
   LitElement
 ) {
@@ -51,7 +51,6 @@ export class BlogArticle extends SWC<{
   }
 }
 
-customElements.define(tagName, BlogArticle);
 declare global {
   interface HTMLElementTagNameMap {
     'blog-article': BlogArticle

@@ -2,9 +2,9 @@ import {builder} from "../macros/build" with { type: "macro" };
 import { Elysia } from "elysia";
 import { staticPlugin } from '@elysiajs/static'
 import { autoroutes } from "elysia-autoroutes";
-import './components/registerComponents';
+import './web/registerComponents';
 import SWCRoutes from './SWCRoutes';
-import { R } from "./layouts";
+import { R } from "./layout";
 import { html } from "lit";
 import {map} from 'lit/directives/map.js';
 
@@ -16,7 +16,7 @@ const app = new Elysia()
   .use(autoroutes({
     routesDir: './routes'
   }))
-  .get('/test', async () => R(html`
+  .get('/toswap', async () => R(html`
    <ul>
     ${map(todos, ({_id,title,completed}) => html`
       	<to-do 

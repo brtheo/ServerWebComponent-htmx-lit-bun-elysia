@@ -3,12 +3,12 @@ import {customElement, property, state} from 'lit/decorators.js'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'x-test':xTest
+    'x-swapped': xSwapped
   }
 }
 
-@customElement('x-test')
-export class xTest extends LitElement {
+@customElement('x-swapped')
+export class xSwapped extends LitElement {
   static styles = css`
       :host {
         display: block;
@@ -22,7 +22,7 @@ export class xTest extends LitElement {
 
   render() {
     return html`
-      hello from outside
+      hello from outside, inner will be swapped
       <slot></slot>
     `
   }
