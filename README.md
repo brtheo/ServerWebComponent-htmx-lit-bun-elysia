@@ -10,7 +10,7 @@ In a Lit Web Component we can decorate class properties to (in our case) :
 * bind it to a component's HTML attribute
 * observe any update of the attribute's value and react to it
 
-In the `routes/index.ts` file, we first render a web component ` <x-counter count=${count()}></x-counter>` to give the prop/attr an initial value.
+In the `routes/index.ts` file, we first render a web component ` <x-counter count=${count()}></x-counter>` to give the attribute an initial value read from database.
 
 The `xCounter` class itself is decorated with `@serverComponent()` extending the mixin `SWC`
 ```typescript
