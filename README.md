@@ -1,6 +1,6 @@
 # Elysia + Bun + HTMX + Lit = Server Web Component
 
-This repo is mainly a POC to demonstrate a server event driven reactive application using both the powers of HTMX and Web Component.
+This repo is mainly a POC to demonstrate a server event driven reactive application using both the powers of HTMX and Web Components.
 
 ## How it works
 
