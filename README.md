@@ -8,7 +8,7 @@ This repo is mainly a POC to demonstrate a server event driven reactive applicat
 In a Lit Web Component we can decorate class properties to (in our case) :
 * ensure type safety
 * bind it to a component's HTML attribute
-* observe any changes of the prop/attr and react to it by a rerender
+* observe any update of the attribute's value and react to it
 
 In the `routes/index.ts` file, we first render a web component `<x-counter count=${state.val}></x-counter>` to give the prop/attr an initial value.
 
