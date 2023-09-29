@@ -9,13 +9,22 @@ export type WiredProperty = string;
 export type Handler = () => any
 export type ComponentTag = string;
 export type ServerAction = `${HTTPVerb}:${WiredEvent}:${WiredProperty}`;
+export type CustomElementClass = Omit<typeof HTMLElement, 'new'>;
 export type ServerComponentRoute = {
   httpVerb: HTTPVerb,
   action: WiredEvent,
   componentTag: ComponentTag,
   res: (ctx: Context) => Promise<any>
 };
-
+export interface ISWC {
+  [action: WiredEvent]: (parameters: {[key: string]: any}) => void
+}
+type prop = {
+  [prop: WiredProperty]: string;
+}
+type eve = {
+  [action: WiredEvent]: prop;
+}
 export const PostProps =  z.object({
   id: z.number()
 });

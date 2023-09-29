@@ -1,15 +1,10 @@
 import { LitElement, html } from 'lit'
-import { customElement, property } from 'lit/decorators.js'
-import { SWC } from '../../lib/shared/SWC';
-
-@customElement('x-counter')
+import { property } from 'lit/decorators.js'
+import { SWC, serverComponent } from '../../lib/shared/SWC';
+@serverComponent('x-counter', ['get:add:count'])
 export class xCounter extends SWC<{
   add: () => void
-}>(
-  'x-counter', 
-  ['get:add:count'],
-  LitElement) 
-{
+}>(LitElement) {
   @property({type:Number, reflect: true})
   count: number;
 

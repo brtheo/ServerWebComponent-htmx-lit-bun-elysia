@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { query } from 'lit/decorators.js';
-import { property, customElement } from 'lit/decorators.js';
-import { SWC } from '../../lib/shared/SWC';
+import { property } from 'lit/decorators.js';
+import { SWC, serverComponent } from '../../lib/shared/SWC';
 import type { TPostProps } from "../../../types";
 
 type Post = {
@@ -10,14 +10,11 @@ type Post = {
   title: string,
   body: string
 }
-@customElement('blog-article')
+
+@serverComponent('blog-article', ['post:fetchblogpost:post'])
 export class BlogArticle extends SWC<{
   fetchblogpost: (params: TPostProps) => void
-}>(
-  'blog-article',
-  ['post:fetchblogpost:post'],
-  LitElement
-) {
+}>(LitElement) {
   static styles = css`
     :host {
       display: block;

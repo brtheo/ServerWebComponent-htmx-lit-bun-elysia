@@ -12,27 +12,24 @@ In a Lit Web Component we can decorate class properties to (in our case) :
 
 In the `routes/index.ts` file, we first render a web component `<x-counter count=${state.val}></x-counter>` to give the prop/attr an initial value.
 
-The `xCounter` class itself is extending the mixin `SWC`
+The `xCounter` class itself is decorated with `@serverComponent()` extending the mixin `SWC`
 ```typescript
-export const SWC = <T>(
-  componentTag: ComponentTag,
-  serverActions: Array<ServerAction>, 
-  genericConstructor: GenericConstructor<LitElement>
-): GenericConstructor<T & LitElement>
+export type ServerAction = `${HTTPVerb}:${WiredEvent}:${WiredProperty}`;
+export const serverComponent(componentTag: ComponentTag, serverActions: Array<ServerAction>)
+...
+export const SWC = <T>(genericConstructor: GenericConstructor<LitElement>): GenericConstructor<T & LitElement>
+...
 ```
-It it'll do two things : 
+What it'll do : 
+* Register custom element
 * create HTMX routes that will respond back with an event of type `<original event name>:res` containing the return value of the `Handler` function
 * attach beloved HTMX attributes to the Web Component
 
 ```typescript
-@customElement('x-counter')
+@cserverComponent('x-counter', ['get:add:count'])
 export class xCounter extends SWC<{
   add: () => void
-}>(
-  'x-counter', 
-  ['get:add:count'],
-  LitElement)
-{
+}>(LitElement) {
   ...
 ```
 This example will produce the following 
@@ -73,7 +70,30 @@ render() {
 }
 ```
 
-### HTML response swapping
+### Post request
+To do a post request, basically sending data from the front to the back, just pass any object you want to be sent as a parameter of the method corresponding to the `WiredEvent` type you've chose.
+```typescript
+@serverComponent('blog-article', ['post:fetchblogpost:post'])
+export class BlogArticle extends SWC<{
+  fetchblogpost: (params: TPostProps) => void
+}>(LitElement) {
+```
+In this example, we've defined our `WiredEvent` to be `fetchblogpost`, meaning a method of the same name, sending an event of the same name will be accecible on the class `BlogArticle`
+The parameters you pass to the `fetchblogpost()` method will be sent to the server over custom headers utilizing `htmx:configRequest` `customEvent`. On the server, those parameters will be workable with in an exported method, again of the same name of the initial `WiredEvent` thing, in a `blog-article.props.ts` file.
+And it's typesafe from client to server.
+```typescript
+export const fetchblogpost = async(ctx: Context) => {
+  const {id} = getServerProps<TPostProps>(ctx);
+  return (
+    await (
+      await fetch('https://jsonplaceholder.typicode.com/posts/'+id)
+    ).json()
+  );
+}
+```
+
+
+### HTML response
 As of right now, HTMX doesn't support shadow dom, but still we can take advantage of `<slot>` element to swap HTML response in the innerHTML of our Web Component for example.
 ```typescript
 //x-swapped.ts
