@@ -12,7 +12,7 @@ In a Lit Web Component we can decorate class properties to (in our case) :
 
 In the `routes/index.ts` file, we first render a web component ` <x-counter count=${count()}></x-counter>` to give the attribute an initial value read from database.
 
-The `xCounter` class itself is decorated with `@serverComponent()` extending the mixin `SWC`
+The `xCounter` class itself is decorated with `@serverComponent()` and is extending the mixin `SWC`
 ```typescript
 export type ServerAction = `${HTTPVerb}:${WiredEvent}:${WiredProperty}`;
 export const serverComponent(componentTag: ComponentTag, serverActions: Array<ServerAction>)
