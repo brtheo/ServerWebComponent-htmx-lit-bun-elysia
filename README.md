@@ -33,7 +33,7 @@ export const add = () => {
   return count();
 } 
 //x-counter.ts
-@cserverComponent('x-counter', ['get:add:count'])
+@serverComponent('x-counter', ['get:add:count'])
 export class xCounter extends SWC<{
   add: () => void
 }>(LitElement) {
