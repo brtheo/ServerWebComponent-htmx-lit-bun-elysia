@@ -67,7 +67,7 @@ On the client :
   );
 </script>
 ```
-It also creates an `add()` method dynamically attached to the `xCounter` class, that send an event of type `add` onto the `body` element of the page to trigger the `hx-trigger` attribute requirements we've set.
+It also creates an `add()` method dynamically attached to the `xCounter` class, that sends an event of type `add` onto the `body` element of the page to trigger the `hx-trigger` attribute requirements we've set.
 
 We can use it like this in our component : 
 ```typescript
