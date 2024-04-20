@@ -85,7 +85,7 @@ export class BlogArticle extends SWC<{
   fetchblogpost: (params: TPostProps) => void
 }>(LitElement) {
 ```
-In this example, we've defined our `WiredEvent` to be `fetchblogpost`, meaning that a method of the same name will be sending an event of the same name will be accecible on the class `BlogArticle`.
+In this example, we've defined our `WiredEvent` to be `fetchblogpost`, meaning that a method of the same name will be sending an event of the same name, will be accecible on the class `BlogArticle`.
 The parameters you pass to the `fetchblogpost()` method will be sent to the server over custom headers utilizing `htmx:configRequest` `customEvent`. On the server, those parameters will be workable with in an exported method, again of the same name of the initial `WiredEvent` , in a `blog-article.props.ts` file.
 And it's typesafe from client to server.
 ```typescript
